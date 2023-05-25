@@ -21,6 +21,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.composeandfragments.presentation.ui.recipe_list.RecipeListViewModel
 import com.example.mvvmrecipecomposeapp.R
+import com.example.mvvmrecipecomposeapp.util.TAG
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,11 +34,16 @@ class RecipeListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.i("RecipeListFragment", "$viewModel")
+
 //        val view = inflater?.inflate(R.layout.fragment_recipe_list, container, false)
 //        return view
         return ComposeView(requireContext()).apply{
             setContent{
+                val recipes = viewModel.recipes.value
+
+                for(recipe in recipes){
+                    Log.d(TAG, "onCreateView: ${recipe.title}")
+                }
                 Column(modifier = Modifier.padding(16.dp)){
                     Text(
                         text = "Recipe List",

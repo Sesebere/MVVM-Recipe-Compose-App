@@ -5,8 +5,8 @@ import com.example.mvvmrecipe.domain.util.DomainMapper
 import com.example.mvvmrecipecomposeapp.domain.model.Recipe
 
 
-class RecipeDtoMapper: DomainMapper<RecipeNetworkDto, Recipe> {
-    override fun mapToDomain(entity: RecipeNetworkDto): Recipe {
+class RecipeDtoMapper: DomainMapper<RecipeDto, Recipe> {
+    override fun mapToDomain(entity: RecipeDto): Recipe {
         return Recipe(
             id = entity.pk,
             title = entity.title,
@@ -22,8 +22,8 @@ class RecipeDtoMapper: DomainMapper<RecipeNetworkDto, Recipe> {
         )
     }
 
-    override fun mapFromDomain(domainModel: Recipe): RecipeNetworkDto {
-        return RecipeNetworkDto(
+    override fun mapFromDomain(domainModel: Recipe): RecipeDto {
+        return RecipeDto(
             pk = domainModel.id,
             title = domainModel.title,
             featuredImage = domainModel.featuredImage,
@@ -38,11 +38,11 @@ class RecipeDtoMapper: DomainMapper<RecipeNetworkDto, Recipe> {
         )
     }
 
-    fun toDomainList(initial: List<RecipeNetworkDto>): List<Recipe>{
+    fun toDomainList(initial: List<RecipeDto>): List<Recipe>{
         return initial.map { mapToDomain(it) }
     }
 
-    fun fromDomainList(initial: List<Recipe>): List<RecipeNetworkDto>{
+    fun fromDomainList(initial: List<Recipe>): List<RecipeDto>{
         return initial.map { mapFromDomain(it) }
     }
 }
