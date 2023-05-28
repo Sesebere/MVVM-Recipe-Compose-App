@@ -10,6 +10,7 @@ import com.example.mvvmrecipecomposeapp.presentation.ui.recipe_list.FoodCategory
 import com.example.mvvmrecipecomposeapp.presentation.ui.recipe_list.getFoodCategory
 import com.example.mvvmrecipecomposeapp.repository.RecipeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
@@ -27,18 +28,30 @@ constructor(
 
     val selectedCategory: MutableState<FoodCategory?> = mutableStateOf(null)
 
+    var categoryScrollPosition: Float = 0f
+
+    val loading = mutableStateOf(false)
+
     init {
         newSearch()
     }
 
     fun newSearch() {
         viewModelScope.launch {
+            loading.value = true
+
+            delay(2000)
+
             val result = repository.search(
                 token = token,
                 page = 1,
                 query = query.value
             )
+
             recipes.value = result
+
+            loading.value = false
+
             Log.i("newSearch", "query: $query")
             Log.i("newSearch", "recipe.value: $query")
         }
@@ -51,4 +64,7 @@ constructor(
             selectedCategory.value = newCategory
             onQueryChanged(category)
         }
+    fun onChangeCategoryScrollPosition(position: Float){
+        categoryScrollPosition  = position
+    }
     }
