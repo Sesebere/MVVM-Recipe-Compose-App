@@ -108,7 +108,7 @@ class RecipeListFragment : Fragment() {
                                 )
                             }
                         }
-                    }
+                    }//random comment
                     }
                     LazyColumn{
                         itemsIndexed(
