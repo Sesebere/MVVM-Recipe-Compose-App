@@ -29,16 +29,22 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.composeandfragments.presentation.ui.recipe_list.RecipeListViewModel
 import com.example.mvvmrecipecomposeapp.R
+import com.example.mvvmrecipecomposeapp.presentation.BaseApplication
 import com.example.mvvmrecipecomposeapp.presentation.components.CircularIndeterminateProgressBar
 import com.example.mvvmrecipecomposeapp.presentation.components.FoodCategoryChip
 import com.example.mvvmrecipecomposeapp.presentation.components.RecipeCard
 import com.example.mvvmrecipecomposeapp.presentation.components.SearchAppBar
+import com.example.mvvmrecipecomposeapp.presentation.theme.AppTheme
 import com.example.mvvmrecipecomposeapp.util.TAG
 
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RecipeListFragment : Fragment() {
+
+    @Inject
+    lateinit var application: BaseApplication
 
     val viewModel: RecipeListViewModel by viewModels()
 
@@ -52,27 +58,40 @@ class RecipeListFragment : Fragment() {
 //        return view
         return ComposeView(requireContext()).apply{
             setContent{
-                val recipes = viewModel.recipes.value
-                val query = viewModel.query.value
-                val selectedCategory = viewModel.selectedCategory.value
-                val loading = viewModel.loading.value
-                Column{
-                    SearchAppBar(
-                        query = query,
-                        onQueryChanged = viewModel::onQueryChanged,
-                        onExecuteSearch = viewModel::newSearch,
-                        selectedCategory = selectedCategory,
-                        onSelectedCategoryChanged = viewModel::onSelectedCategoryChanged
-                    )
-                    CircularIndeterminateProgressBar(isDisplayed = loading)
-                    LazyColumn{
-                        itemsIndexed(
-                            items = recipes
-                        ){ index, recipe ->
-                            RecipeCard(recipe = recipe, onClick = {})
+                AppTheme(
+                    darkTheme = application.isDark.value
+                ){
+                    val recipes = viewModel.recipes.value
+                    val query = viewModel.query.value
+                    val selectedCategory = viewModel.selectedCategory.value
+                    val loading = viewModel.loading.value
+                    Column{
+                        SearchAppBar(
+                            query = query,
+                            onQueryChanged = viewModel::onQueryChanged,
+                            onExecuteSearch = viewModel::newSearch,
+                            selectedCategory = selectedCategory,
+                            onSelectedCategoryChanged = viewModel::onSelectedCategoryChanged,
+                            onToggleTheme = { application.toggleLightTheme() }
+                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color = MaterialTheme.colors.background)
+                        )
+                        {
+                            LazyColumn {
+                                itemsIndexed(
+                                    items = recipes
+                                ) { index, recipe ->
+                                    RecipeCard(recipe = recipe, onClick = {})
+                                }
+                            }
+                            CircularIndeterminateProgressBar(isDisplayed = loading)
                         }
                     }
                 }
+
 
                 }
             }

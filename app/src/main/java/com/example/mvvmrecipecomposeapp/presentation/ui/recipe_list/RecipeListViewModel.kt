@@ -40,6 +40,8 @@ constructor(
         viewModelScope.launch {
             loading.value = true
 
+            resetSearchState()
+
             delay(2000)
 
             val result = repository.search(
@@ -56,6 +58,17 @@ constructor(
             Log.i("newSearch", "recipe.value: $query")
         }
     }
+
+        private fun resetSearchState(){
+            recipes.value = listOf()
+            if(selectedCategory.value?.value != query.value){
+                clearSelectedCategory()
+            }
+        }
+        private fun clearSelectedCategory(){
+            selectedCategory.value = null
+        }
+
         fun onQueryChanged(query: String) {
             this.query.value = query
         }

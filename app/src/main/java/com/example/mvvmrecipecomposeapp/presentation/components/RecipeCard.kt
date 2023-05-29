@@ -25,20 +25,24 @@ fun RecipeCard(
     recipe: Recipe,
     onClick: () -> Unit
 ){
-    Card(
-        shape = RoundedCornerShape(8.dp),
-        modifier = Modifier
-            .padding(
-                bottom = 6.dp,
-                top = 6.dp
-            )
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        elevation = 8.dp
-    )
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Card(
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier
+                .padding(
+                    bottom = 6.dp,
+                    top = 6.dp
+                )
+                .fillMaxWidth(0.9f)
+                .clickable(onClick = onClick)
+                .align(Alignment.CenterHorizontally),
+            elevation = 8.dp
+        )
         {
-            Column{
-                recipe.featuredImage?.let{ url->
+            Column {
+                recipe.featuredImage?.let { url ->
                     val painter = rememberImagePainter(
                         data = url,
                         builder = {
@@ -47,7 +51,7 @@ fun RecipeCard(
                     )
                     Image(
                         painter = painter,
-                        contentDescription="empty plate",
+                        contentDescription = "empty plate",
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(225.dp),
@@ -55,12 +59,12 @@ fun RecipeCard(
 
                     )
                 }
-                recipe.title?.let{title ->
+                recipe.title?.let { title ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 12.dp, bottom = 12.dp, start = 8.dp, end = 8.dp)
-                    ){
+                    ) {
                         Text(
                             text = title,
                             modifier = Modifier
@@ -80,4 +84,5 @@ fun RecipeCard(
                 }
             }
         }
+    }
 }
