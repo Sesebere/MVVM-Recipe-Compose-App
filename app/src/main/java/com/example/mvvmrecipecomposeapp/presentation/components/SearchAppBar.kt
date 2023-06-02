@@ -63,7 +63,7 @@ fun SearchAppBar(
                     leadingIcon = {
                         Icon(Icons.Filled.Search, contentDescription = "Search Icon")
                     },
-                    textStyle = TextStyle(color = MaterialTheme.colors.onSurface),
+                    textStyle = MaterialTheme.typography.button
 
 //                                onImeActionPerformed = { imeAction, controller ->
 //                                    if(imeAction == ImeAction.Search){
