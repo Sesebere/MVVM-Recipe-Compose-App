@@ -3,14 +3,12 @@ package com.example.mvvmrecipecomposeapp.presentation.components
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.itemsIndexed
 import com.example.composeandfragments.presentation.ui.recipe_list.PAGE_SIZE
-import com.example.mvvmrecipecomposeapp.presentation.ui.recipe_list.RecipeListEvent
 
 
 import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
@@ -20,10 +18,8 @@ import androidx.navigation.NavController
 import com.example.mvvmrecipecomposeapp.R
 import com.example.mvvmrecipecomposeapp.domain.model.Recipe
 import com.example.mvvmrecipecomposeapp.presentation.components.util.SnackbarController
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalMaterialApi
-@ExperimentalCoroutinesApi
+
 @Composable
 fun RecipeList(
     loading: Boolean,
@@ -47,7 +43,7 @@ fun RecipeList(
             ) { index, recipe ->
                 onChangeScrollPosition(index)
                 if((index+1) >= (page * PAGE_SIZE) && !loading){
-                    RecipeListEvent.NextPageEvent
+                    onTriggerNextPage
                 }
                 RecipeCard(
                     recipe = recipe,
