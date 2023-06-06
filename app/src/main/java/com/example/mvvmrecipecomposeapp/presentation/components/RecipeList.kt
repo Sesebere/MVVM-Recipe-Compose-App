@@ -54,14 +54,6 @@ fun RecipeList(
                     })
             }
         }
-        CircularIndeterminateProgressBar(isDisplayed = loading)
-        DefaultSnackbar(
-            snackbarHostState = scaffoldState.snackbarHostState,
-            onDismiss = {
-                scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-            },
-            modifier = Modifier.align(
-                Alignment.BottomCenter
-            ))
+
     }
 }
